@@ -83,8 +83,8 @@ exports.Prisma.AllergiesScalarFieldEnum = makeEnum({
 
 exports.Prisma.Allergies_drinksScalarFieldEnum = makeEnum({
   id: 'id',
-  allergies_id: 'allergies_id',
-  dirnks_id: 'dirnks_id'
+  allergieId: 'allergieId',
+  drinkId: 'drinkId'
 });
 
 exports.Prisma.CategoriesScalarFieldEnum = makeEnum({
@@ -94,41 +94,41 @@ exports.Prisma.CategoriesScalarFieldEnum = makeEnum({
 
 exports.Prisma.CommentsScalarFieldEnum = makeEnum({
   id: 'id',
-  user_id: 'user_id',
-  drink_id: 'drink_id',
-  contents: 'contents',
+  userId: 'userId',
+  drinkId: 'drinkId',
+  content: 'content',
   created_at: 'created_at',
   updated_at: 'updated_at'
 });
 
 exports.Prisma.DrinksScalarFieldEnum = makeEnum({
   id: 'id',
-  categories_id: 'categories_id',
-  korean_name: 'korean_name',
-  english_name: 'english_name',
+  categoryId: 'categoryId',
+  koreanName: 'koreanName',
+  englishName: 'englishName',
   description: 'description',
-  is_new: 'is_new'
+  isNew: 'isNew'
 });
 
 exports.Prisma.ImagesScalarFieldEnum = makeEnum({
   id: 'id',
-  drinks_id: 'drinks_id',
-  images_url: 'images_url'
+  drinkId: 'drinkId',
+  imageUrl: 'imageUrl'
 });
 
 exports.Prisma.LikesScalarFieldEnum = makeEnum({
   id: 'id',
-  user_id: 'user_id',
-  dirnk_id: 'dirnk_id'
+  userId: 'userId',
+  drinkId: 'drinkId'
 });
 
 exports.Prisma.NutritionScalarFieldEnum = makeEnum({
   id: 'id',
-  drinks_id: 'drinks_id',
-  calories: 'calories',
+  drinkId: 'drinkId',
+  calorie: 'calorie',
   natrium: 'natrium',
   fat: 'fat',
-  sugars: 'sugars',
+  sugar: 'sugar',
   protein: 'protein',
   caffeine: 'caffeine'
 });
@@ -136,9 +136,13 @@ exports.Prisma.NutritionScalarFieldEnum = makeEnum({
 exports.Prisma.UsersScalarFieldEnum = makeEnum({
   id: 'id',
   email: 'email',
-  pssword: 'pssword',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  password: 'password',
+  username: 'username',
+  address: 'address',
+  phoneNumber: 'phoneNumber',
+  policyAgreed: 'policyAgreed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 });
 
 exports.Prisma.SortOrder = makeEnum({

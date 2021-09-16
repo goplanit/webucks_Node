@@ -14,10 +14,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/wecode-bootcamp-korea/2-Node-webucks-2/issues"
-  },
-  "homepage": "https://github.com/wecode-bootcamp-korea/2-Node-webucks-2#readme",
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/node": "^7.15.4",

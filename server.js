@@ -1,16 +1,17 @@
-import express from 'express';
+import dotenv from 'dotenv';
+import http from 'http';
+import app from './app';
+import prisma from 'prisma';
 
-const app = express();
+dotenv.config();
+const server = http.createServer(app);
 const PORT = 8000 | process.env.DATABASE_URL;
-
-app.get('/', (req, res) => {
-  res.send('S2팀');
-});
 
 app.listen(PORT, err => {
   try {
     console.log(`Server is running on ${PORT}`);
   } catch {
     console.log(err);
+    await prisma.$disconnect();
   }
 });
