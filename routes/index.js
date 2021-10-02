@@ -1,12 +1,12 @@
 import express from 'express';
 import listRouter from './listRouter';
-import detailRouter from './detailRouter';
+import detailRouter from './productRouter';
 import userRouter from './userRouter';
 
 const router = express.Router();
 
-router.use('/list', listRouter);
-router.use('/detail', detailRouter);
-router.use('/user', userRouter);
+router.use('/lists', listRouter);
+router.use('/products', detailRouter);
+router.use('/users', userRouter);
 
 export default router;

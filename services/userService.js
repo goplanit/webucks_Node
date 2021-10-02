@@ -1,28 +1,86 @@
-import prisma from '../prisma';
-import express from 'express';
+import {
+  getUsersModel,
+  getUsersByEmailModel,
+  createUserModel,
+  getUserById,
+} from '../models/userDao';
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { ERROR } from '../utils/error';
 
-const app = express();
+dotenv.config();
+const { COOKIE_SECRET } = process.env;
+export const getUsersService = async () => {
+  return await getUsersModel();
+};
 
-const userService = () => {
-  app.post('/users', async (req, res) => {
-    await prisma.$queryRaw`
-    INSERT INTO users
-      (id, email, password, username, address, phone_number) 
-    VALUES 
-      (1, 'goplanit19@gmail.com', 'aaaa1111!', '고원구', '구리시', '010-5558-8846'),
-      (2, 'abc@gmail.com', 'aaaa1111!', '이은정', '구리시', '010-5558-8846'),
-      (3, 'ddd@gmail.com', 'bbbb1111!', '한지훈', '서울시', '010-1234-5678'),
-      (4, 'gee@gmail.com', 'cccc1111!', '김원영', '서울시', '010-4444-3333'),
-      (5, 'www@gmail.com', 'dddd1111!', '이민재', '서울시', '010-2424-5555');
-  `;
+export const getUserByIdService = async id => {
+  const userInfoById = await getUserById(id);
+  return userInfoById;
+};
 
-    const users = await prisma.$queryRaw`
-    SELECT *
-    FROM users;
-  `;
+export const getUsersByEmailService = async email => {
+  const [userInfoByEmail] = await getUsersByEmailModel(email);
+  return userInfoByEmail;
+};
 
-    res.json(users);
+export const loginService = async (email, password) => {
+  const user = await getUsersByEmailService(email);
+  if (user) {
+    const checkPassword = await bcrypt.compare(password, user.password);
+    if (checkPassword) {
+      return user;
+    } else {
+      throw new error(ERROR.WRONG_INPUT);
+    }
+  }
+};
+
+export const createToken = async user => {
+  return new Promise((resolve, reject) => {
+    jwt.sign({ id: user.id }, COOKIE_SECRET, (err, encoded) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(encoded);
+      }
+    });
   });
 };
 
-export default userService;
+export const verifyToken = async token => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, COOKIE_SECRET, (err, value) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(value);
+      }
+    });
+  });
+};
+
+export const createUserService = async (
+  email,
+  password,
+  username,
+  address,
+  phoneNumber,
+  policyAgreed
+) => {
+  const userInfo = await getUsersByEmailModel(email);
+  const isUser = userInfo[0];
+
+  if (!isUser) {
+    const hash = await bcrypt.hash(password, 12);
+    return await createUserModel(
+      email,
+      hash,
+      username,
+      address,
+      phoneNumber,
+      policyAgreed
+    );
+  }
+};
